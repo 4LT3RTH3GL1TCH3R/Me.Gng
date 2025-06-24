@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title></title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>! No0neX</h1>
+    <nav>
+      <ul>
+        <li onclick="showTab('about')">About Me</li>
+        <li onclick="showTab('projects')">Stuff I Made</li>
+        <li onclick="showTab('socials')">Social Media</li>
+        <li onclick="showTab('status')">Status</li>
+        <li onclick="showTab('friends')">Friends</li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about" class="tab active">
+      <h2>About Me</h2>
+      <p>Some guy on the internet that makes games, fucks up shit, and exists.</p>
+    </section>
+
+    <section id="projects" class="tab">
+      <h2>Stuff I Made</h2>
+      <ul>
+        <li>Idfk what to put here so just wait mf.</li>
+      </ul>
+    </section>
+
+    <section id="socials" class="tab">
+        <h2>Social Media</h2>
+        <ul>
+            <li><a href="https://github.com/4LT3RTH3GL1TCH3R" target="_blank">GitHub</a></li>
+            <li><a href="https://www.youtube.com/@No0neW4sH3r3" target="_blank">YouTube</a></li>
+            <li><button onclick="copyDiscord()" style="all: unset; cursor: pointer; color: #00aff4; text-decoration: underline;">d3c0m0s1ngc0rps3 Discord</button></li>
+        </ul>
+     </section>
+
+    <section id="status" class="tab">
+      <h2>Discord Status</h2>
+      <div id="discord-status">Loading...</div>
+    </section>
+
+    <section id="friends" class="tab">
+      <h2>Friends</h2>
+      <ul>
+        <li>Areca</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
