@@ -1,28 +1,49 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #eee;
+html, body {
   margin: 0;
   padding: 0;
-  cursor: none;
+  background: #111;
+  color: #eee;
+  font-family: Arial, sans-serif;
+  cursor: none; /* hide default cursor */
+  overflow-x: hidden;
+  height: 100%;
+}
+
+/* Ensure header and main appear above canvas */
+header, main {
+  position: relative;
+  z-index: 2;
 }
 
 #bg-canvas {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1; /* raised to be above background but still under content */
+  z-index: 1;
+  pointer-events: none; /* don't block interactions */
+}
+
+/* Cursor overlay on top of everything */
+#cursor-layer {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   pointer-events: none;
+  z-index: 9999;
 }
 
-header,
-main {
-  position: relative;
-  z-index: 2; /* ensures content appears above canvas */
+#cursor-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #0ff;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
+/* Your existing styling */
 header {
   background: #222;
   padding: 1rem;
