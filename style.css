@@ -35,7 +35,7 @@ nav ul {
 }
 
 nav li {
-  cursor: pointer;
+  cursor: none; /* no pointer cursor */
   padding: 0.5rem 1rem;
   border-radius: 8px;
   background: #333;
@@ -62,8 +62,14 @@ main {
 a {
   color: #0ff;
   text-decoration: none;
+  cursor: none; /* no pointer cursor */
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
+/* Background canvas */
 #bg-canvas {
   position: fixed;
   top: 0; left: 0;
@@ -73,6 +79,7 @@ a {
   pointer-events: none;
 }
 
+/* Cursor layer and dot */
 #cursor-layer {
   position: fixed;
   top: 0; left: 0;
@@ -88,17 +95,18 @@ a {
   background: #0ff;
   border-radius: 50%;
   pointer-events: none;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.15s ease;
 }
 
-/* Copy button styles */
+/* Button style */
 .copy-btn {
   background: #333;
   color: #0ff;
   border: none;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
-  cursor: pointer;
+  cursor: none; /* no pointer cursor */
   font-size: 1rem;
   user-select: none;
   transition: background 0.3s;
@@ -108,3 +116,10 @@ a {
   background: #0ff;
   color: #111;
 }
+
+/* Larger cursor on hover over clickable */
+.hover-target {
+  cursor: none !important; /* no pointer */
+}
+
+/* We'll add the scaling effect via JS */
