@@ -20,6 +20,7 @@ async function fetchDiscordStatus() {
       const status = discordData.discord_status || "offline";
       const activities = discordData.activities || [];
       let textStatus = `Status: <strong>${status}</strong>`;
+      // Show custom status if available
       const customActivity = activities.find(a => a.type === 4 && a.state);
       if (customActivity) {
         textStatus += `<br>Custom status: "${customActivity.state}"`;
@@ -37,7 +38,8 @@ async function fetchDiscordStatus() {
 fetchDiscordStatus();
 setInterval(fetchDiscordStatus, 60000);
 
-const discordTag = "d3c0mp0s1ngc0rps3";
+// Clipboard copy for Discord tag
+const discordTag = "d3c0mp0s1ngc0rps3";  // Replace with your actual Discord tag
 
 const copyBtn = document.getElementById("copy-discord");
 copyBtn.addEventListener("click", () => {
@@ -53,3 +55,32 @@ copyBtn.addEventListener("click", () => {
     }, 1500);
   });
 });
+
+// Typing effect for the title "No0ne"
+const titleText = "No0ne";
+let titleIndex = 0;
+let typingForward = true;
+
+function typeTitle() {
+  if (typingForward) {
+    titleIndex++;
+    if (titleIndex >= titleText.length) {
+      typingForward = false;
+      setTimeout(typeTitle, 1000);
+      document.title = titleText;
+      return;
+    }
+  } else {
+    titleIndex--;
+    if (titleIndex <= 1) {
+      typingForward = true;
+      setTimeout(typeTitle, 500);
+      document.title = titleText.slice(0, 1);
+      return;
+    }
+  }
+  document.title = titleText.slice(0, titleIndex);
+  setTimeout(typeTitle, 200);
+}
+
+typeTitle();
