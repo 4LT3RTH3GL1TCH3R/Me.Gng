@@ -1,93 +1,77 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #111;
-  color: #eee;
-  font-family: Arial, sans-serif;
-  cursor: none; /* hide default cursor */
-  overflow-x: hidden;
-  height: 100%;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>No0ne</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
 
-/* Ensure header and main appear above canvas */
-header, main {
-  position: relative;
-  z-index: 2;
-}
+<header>
+  <h1>No0ne</h1>
+  <nav>
+    <ul>
+      <li onclick="showTab('about')">About Me</li>
+      <li onclick="showTab('projects')">Stuff I Made</li>
+      <li onclick="showTab('socials')">Social Media</li>
+      <li onclick="showTab('status')">Status</li>
+      <li onclick="showTab('friends')">Friends</li>
+    </ul>
+  </nav>
+</header>
 
-#bg-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none; /* don't block interactions */
-}
+<main>
+  <section id="about" class="tab active">
+    <h2>About Me</h2>
+    <p>I make games and stuff.</p>
+    <p>I wanna become a femboy :3</p>
+    <p>Bi.</p>
+  </section>
 
-/* Cursor overlay on top of everything */
-#cursor-layer {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  pointer-events: none;
-  z-index: 9999;
-}
+  <section id="projects" class="tab">
+    <h2>Stuff I Made</h2>
+    <ul>
+      <li><a href="#">Idk what to put here so just wait</a></li>
+    </ul>
+  </section>
 
-#cursor-dot {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #0ff;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
+  <section id="socials" class="tab">
+    <h2>Social Media</h2>
+      <ul>
+        <li><a href="https://www.youtube.com/@No0neW4sH3r3" target="_blank">Youtube</a></li>
+        <li><a href="https://github.com/4LT3RTH3GL1TCH3R" target="_blank">GitHub</a></li>
+        <li><button id="copy-discord" class="copy-btn">Discord</button></li>
+      </ul>
+     </section>
 
-/* Your existing styling */
-header {
-  background: #222;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-h1 {
-  margin: 0;
-  color: #0ff;
-}
+  <section id="status" class="tab">
+    <h2>Status</h2>
+    <p id="discord-status">Loading Discord status...</p>
+  </section>
 
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
+  <section id="friends" class="tab">
+    <h2>Friends</h2>
+    <ul>
+      <li>Areca</li>
+      <li>ColdCube</li>
+      <li>PinkyPie</li>
+    </ul>
+  </section>
+</main>
 
-nav li {
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: #333;
-  transition: background 0.3s;
-}
+<!-- Background particles canvas -->
+<canvas id="bg-canvas"></canvas>
 
-nav li:hover {
-  background: #555;
-}
+<!-- Cursor dot overlay -->
+<div id="cursor-layer">
+  <div id="cursor-dot"></div>
+</div>
 
-main {
-  padding: 2rem;
-}
+<script src="particles.js"></script>
+<script src="cursor.js"></script>
+<script src="script.js"></script>
 
-.tab {
-  display: none;
-}
-
-.tab.active {
-  display: block;
-}
-
-a {
-  color: #0ff;
-  text-decoration: none;
-}
+</body>
+</html>
