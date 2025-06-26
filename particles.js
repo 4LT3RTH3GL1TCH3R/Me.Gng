@@ -51,7 +51,7 @@ class Pulse {
     if (this.opacity <= 0) return;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(0, 255, 255, ${this.opacity})`;
+    ctx.strokeStyle = `rgba(0,255,255,${this.opacity})`;
     ctx.lineWidth = 2;
     ctx.stroke();
   }
@@ -68,10 +68,12 @@ window.addEventListener("mousemove", e => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
 });
+
 window.addEventListener("mouseleave", () => {
   mouse.x = null;
   mouse.y = null;
 });
+
 window.addEventListener("click", e => {
   pulses.push(new Pulse(e.clientX, e.clientY));
 });
@@ -103,10 +105,6 @@ function connectParticles() {
       }
     }
   }
-}
-
-function drawCursorDot() {
-  // We don't draw cursor dot here because cursor is a DOM div
 }
 
 function animate() {
