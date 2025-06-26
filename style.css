@@ -13,8 +13,14 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0; /* must be above background but below content */
-  pointer-events: none; /* allows mouse events to pass through */
+  z-index: 1; /* raised to be above background but still under content */
+  pointer-events: none;
+}
+
+header,
+main {
+  position: relative;
+  z-index: 2; /* ensures content appears above canvas */
 }
 
 header {
