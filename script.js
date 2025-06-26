@@ -1,111 +1,141 @@
-function showTab(tabId) {
-  document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-  document.getElementById(tabId).classList.add("active");
-}
+const canvas = document.getElementById("bg-canvas");
+const ctx = canvas.getContext("2d");
 
-// Replace with your Discord user ID
-const discordId = "1206017969499414558";
-const statusElement = document.getElementById("discord-status");
-const titleText = "No0ne";
-const minIndex = 1;
-let index = minIndex;
-let isDeleting = false;
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
 
-async function fetchDiscordStatus() {
-  try {
-    const res = await fetch(`https://api.lanyard.rest/v1/users/${discordId}`);
-    const data = await res.json();
-    if (data.success) {
-      const status = data.data.discord_status;
-      const activities = data.data.activities;
+window.addEventListener("resize", () => {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+});
 
-      let activityStr = activities.length ? `Playing: ${activities[0].name}` : "No activity";
-      statusElement.innerHTML = `
-        <p>Status: <strong style="color:${getStatusColor(status)}">${status}</strong></p>
-        <p>${activityStr}</p>
-      `;
-    } else {
-      statusElement.textContent = "Unable to fetch status.";
-    }
-  } catch (e) {
-    statusElement.textContent = "Error loading Discord status.";
+const PARTICLE_COUNT = 100;
+const CONNECT_DISTANCE = 100;
+const particles = [];
+const pulses = [];
+const mouse = { x: null, y: null };
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = (Math.random() - 0.5) * 1.2;
+    this.vy = (Math.random() - 0.5) * 1.2;
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x <= 0 || this.x >= width) this.vx *= -1;
+    if (this.y <= 0 || this.y >= height) this.vy *= -1;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+    ctx.fillStyle = "#0ff";
+    ctx.fill();
   }
 }
 
-async function fetchDiscordStatus() {
-  try {
-    const res = await fetch(`https://api.lanyard.rest/v1/users/1206017969499414558`);
-    const data = await res.json();
-
-    if (!data.success) {
-      document.getElementById("discord-status").textContent = "Unable to fetch status.";
-      return;
-    }
-
-    const status = data.data.discord_status;
-    const activities = data.data.activities;
-    const customStatus = activities.find(act => act.type === 4);
-
-    let statusHTML = `
-      <p>Status: <strong style="color:${getStatusColor(status)}">${status}</strong></p>
-    `;
-
-    if (customStatus && customStatus.state) {
-      statusHTML += `<p>Custom Status: ${customStatus.state}</p>`;
-    }
-
-    document.getElementById("discord-status").innerHTML = statusHTML;
-
-  } catch (err) {
-    document.getElementById("discord-status").textContent = "Error loading Discord status.";
+class Pulse {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.radius = 5;
+    this.opacity = 0.5;
+  }
+  update() {
+    this.radius += 2;
+    this.opacity -= 0.02;
+  }
+  draw() {
+    if (this.opacity <= 0) return;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(0, 255, 255, ${this.opacity})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+  isDead() {
+    return this.opacity <= 0;
   }
 }
 
-function getStatusColor(status) {
-  switch (status) {
-    case "online": return "#0f0";
-    case "idle": return "#ff0";
-    case "dnd": return "#f00";
-    case "offline": return "#888";
-    default: return "#ccc";
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  particles.push(new Particle());
+}
+
+// ✅ Use window instead of canvas to capture mouse over any content
+window.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+window.addEventListener("mouseleave", () => {
+  mouse.x = null;
+  mouse.y = null;
+});
+window.addEventListener("click", e => {
+  pulses.push(new Pulse(e.clientX, e.clientY));
+});
+
+function connectParticles() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < CONNECT_DISTANCE) {
+        ctx.strokeStyle = `rgba(0,255,255,${1 - dist / CONNECT_DISTANCE})`;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+    if (mouse.x !== null && mouse.y !== null) {
+      const dx = particles[i].x - mouse.x;
+      const dy = particles[i].y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < CONNECT_DISTANCE) {
+        ctx.strokeStyle = `rgba(0,255,255,${1 - dist / CONNECT_DISTANCE})`;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    }
   }
 }
 
-function typeTitle() {
-  document.title = titleText.substring(0, index);
-
-  if (!isDeleting) {
-    if (index < titleText.length) {
-      index++;
-      setTimeout(typeTitle, 250);
-    } else {
-      // full word typed, wait 1 sec then start deleting
-      isDeleting = true;
-      setTimeout(typeTitle, 1000);
-    }
-  } else {
-    if (index > minIndex) {
-      index--;
-      setTimeout(typeTitle, 250);
-    } else {
-      // reached 'N', wait 1 sec then start typing again
-      isDeleting = false;
-      setTimeout(typeTitle, 1000);
-    }
+function drawCursorDot() {
+  if (mouse.x !== null && mouse.y !== null) {
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = "#0ff";
+    ctx.fill();
   }
 }
 
-typeTitle();
+function animate() {
+  ctx.clearRect(0, 0, width, height);
 
-fetchDiscordStatus();
-setInterval(fetchDiscordStatus, 15000);
-
-// Function to copy Discord tag to clipboard
-function copyDiscord() {
-  const tag = "d3c0m0s1ngc0rps3";
-  navigator.clipboard.writeText(tag).then(() => {
-    alert("Discord tag copied to clipboard!");
-  }).catch(() => {
-    alert("Failed to copy Discord tag.");
+  particles.forEach(p => {
+    p.update();
+    p.draw();
   });
+
+  connectParticles();
+  drawCursorDot();
+
+  pulses.forEach(p => {
+    p.update();
+    p.draw();
+  });
+
+  for (let i = pulses.length - 1; i >= 0; i--) {
+    if (pulses[i].isDead()) pulses.splice(i, 1);
+  }
+
+  requestAnimationFrame(animate);
 }
+
+animate();
