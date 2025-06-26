@@ -4,16 +4,18 @@ body {
   color: #eee;
   margin: 0;
   padding: 0;
+  cursor: none;
 }
 
 #bg-canvas {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
-  background: #111;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* must be above background but below content */
+  pointer-events: none; /* allows mouse events to pass through */
 }
-
 
 header {
   background: #222;
