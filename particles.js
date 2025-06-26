@@ -9,8 +9,8 @@ window.addEventListener("resize", () => {
   height = canvas.height = window.innerHeight;
 });
 
-const PARTICLE_COUNT = 100;
-const CONNECT_DISTANCE = 100;
+const PARTICLE_COUNT = 250;
+const CONNECT_DISTANCE = 200;
 const particles = [];
 const pulses = [];
 const mouse = { x: null, y: null };
