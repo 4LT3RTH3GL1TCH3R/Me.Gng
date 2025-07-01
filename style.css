@@ -143,4 +143,26 @@ hr {
   cursor: none !important; /* no pointer */
 }
 
-/* We'll add the scaling effect via JS */
+/* Scrollbar styling for WebKit (Chrome, Edge, Opera, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0ff;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0cc;
+}
+
+/* Optional for Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0ff #111;
+}
